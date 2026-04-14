@@ -269,6 +269,7 @@ const ETABSComparisonTable: React.FC<Props> = ({
         const r3 = beam3DMap.get(beamId);
         const r2 = beam2DMap.get(beamId);
         const rg = beamGFMap.get(beamId);
+        const ru = beamUCMap.get(beamId);
         const storyLabel = stories.find(s => s.id === beam.storyId)?.label ?? '';
         rows.push({
           beamId,
@@ -278,11 +279,12 @@ const ETABSComparisonTable: React.FC<Props> = ({
           m2d_left: r2?.Mleft ?? 0, m2d_mid: r2?.Mmid ?? 0, m2d_right: r2?.Mright ?? 0, v2d: r2?.Vu ?? 0,
           m3d_left: r3?.Mleft ?? 0, m3d_mid: r3?.Mmid ?? 0, m3d_right: r3?.Mright ?? 0, v3d: r3?.Vu ?? 0,
           mgf_left: rg?.Mleft ?? 0, mgf_mid: rg?.Mmid ?? 0, mgf_right: rg?.Mright ?? 0, vgf: rg?.Vu ?? 0,
+          muc_left: ru?.Mleft ?? 0, muc_mid: ru?.Mmid ?? 0, muc_right: ru?.Mright ?? 0, vuc: ru?.Vu ?? 0,
         });
       }
     }
     return rows;
-  }, [frames, beamsMap, beam3DMap, beam2DMap, beamGFMap, stories]);
+  }, [frames, beamsMap, beam3DMap, beam2DMap, beamGFMap, beamUCMap, stories]);
 
   const colRows = useMemo<ColCompRow[]>(() => {
     return columns
