@@ -245,7 +245,20 @@ const ETABSComparisonTable: React.FC<Props> = ({
     return map;
   }, [frameResultsGF]);
 
+  const beamUCMap = useMemo(() => {
+    const map = new Map<string, FrameResult['beams'][number]>();
+    if (frameResultsUC) {
+      for (const fr of frameResultsUC) {
+        for (const br of fr.beams) {
+          map.set(br.beamId, br);
+        }
+      }
+    }
+    return map;
+  }, [frameResultsUC]);
+
   const hasGF = frameResultsGF && frameResultsGF.length > 0;
+  const hasUC = frameResultsUC && frameResultsUC.length > 0;
 
   const beamRows = useMemo<BeamCompRow[]>(() => {
     const rows: BeamCompRow[] = [];
