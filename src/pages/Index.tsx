@@ -2587,6 +2587,7 @@ const Index = () => {
                   frameResults3D={frameResults3DRaw}
                   frameResults2D={frameResults2D}
                   frameResultsGF={frameResultsGF}
+                  frameResultsUC={[]}
                   colLoads3D={colLoads3D}
                   colLoads2D={colLoadsBiaxial}
                   etabsBeamData={etabsCompBeamData}
