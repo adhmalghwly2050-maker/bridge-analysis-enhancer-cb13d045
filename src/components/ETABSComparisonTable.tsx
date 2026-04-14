@@ -52,6 +52,7 @@ interface BeamCompRow {
   m2d_left: number; m2d_mid: number; m2d_right: number; v2d: number;
   m3d_left: number; m3d_mid: number; m3d_right: number; v3d: number;
   mgf_left: number; mgf_mid: number; mgf_right: number; vgf: number;
+  muc_left: number; muc_mid: number; muc_right: number; vuc: number;
 }
 
 interface ColCompRow {
