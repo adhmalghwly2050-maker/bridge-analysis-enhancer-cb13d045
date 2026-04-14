@@ -487,27 +487,40 @@ const ETABSComparisonTable: React.FC<Props> = ({
                   <TableHead className="text-xs">الإطار</TableHead>
                   <TableHead className="text-xs">الجسر</TableHead>
                   <TableHead className="text-xs">البحر (م)</TableHead>
-                  <TableHead className="text-[10px] text-center" colSpan={hasEtabs ? (hasGF ? 7 : 5) : (hasGF ? 4 : 3)}>M يسار (kN·m)</TableHead>
-                  <TableHead className="text-[10px] text-center" colSpan={hasEtabs ? (hasGF ? 7 : 5) : (hasGF ? 4 : 3)}>M منتصف (kN·m)</TableHead>
-                  <TableHead className="text-[10px] text-center" colSpan={hasEtabs ? (hasGF ? 7 : 5) : (hasGF ? 4 : 3)}>M يمين (kN·m)</TableHead>
-                  <TableHead className="text-[10px] text-center" colSpan={hasGF ? 4 : 3}>Vu (kN)</TableHead>
+                  {(() => {
+                    let base = 2; // 2D, 3D
+                    if (hasGF) base++;
+                    if (hasUC) base++;
+                    if (hasEtabs) base += 1 + 2 + (hasGF ? 1 : 0) + (hasUC ? 1 : 0); // ETABS + Δ2D + Δ3D + ΔGF? + ΔUC?
+                    else base += 1; // Δ%
+                    const mColSpan = base;
+                    let vBase = 2 + (hasGF ? 1 : 0) + (hasUC ? 1 : 0) + 1; // 2D,3D,GF?,UC?,Δ%
+                    return (
+                      <>
+                        <TableHead className="text-[10px] text-center" colSpan={mColSpan}>M يسار (kN·m)</TableHead>
+                        <TableHead className="text-[10px] text-center" colSpan={mColSpan}>M منتصف (kN·m)</TableHead>
+                        <TableHead className="text-[10px] text-center" colSpan={mColSpan}>M يمين (kN·m)</TableHead>
+                        <TableHead className="text-[10px] text-center" colSpan={vBase}>Vu (kN)</TableHead>
+                      </>
+                    );
+                  })()}
                 </TableRow>
                 <TableRow>
                   <TableHead /><TableHead /><TableHead /><TableHead />
                   {/* M يسار */}
-                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : [])] : ['Δ%'])].map((h, i) => (
+                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasUC ? ['UC'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : []), ...(hasUC ? ['ΔUC'] : [])] : ['Δ%'])].map((h, i) => (
                     <TableHead key={`l${i}`} className="text-[10px] text-center px-1">{h}</TableHead>
                   ))}
                   {/* M منتصف */}
-                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : [])] : ['Δ%'])].map((h, i) => (
+                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasUC ? ['UC'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : []), ...(hasUC ? ['ΔUC'] : [])] : ['Δ%'])].map((h, i) => (
                     <TableHead key={`m${i}`} className="text-[10px] text-center px-1">{h}</TableHead>
                   ))}
                   {/* M يمين */}
-                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : [])] : ['Δ%'])].map((h, i) => (
+                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasUC ? ['UC'] : []), ...(hasEtabs ? ['ETABS','Δ2D','Δ3D', ...(hasGF ? ['ΔGF'] : []), ...(hasUC ? ['ΔUC'] : [])] : ['Δ%'])].map((h, i) => (
                     <TableHead key={`r${i}`} className="text-[10px] text-center px-1">{h}</TableHead>
                   ))}
                   {/* Vu */}
-                  {['2D','3D', ...(hasGF ? ['GF'] : []),'Δ%'].map((h, i) => (
+                  {['2D','3D', ...(hasGF ? ['GF'] : []), ...(hasUC ? ['UC'] : []),'Δ%'].map((h, i) => (
                     <TableHead key={`v${i}`} className="text-[10px] text-center px-1">{h}</TableHead>
                   ))}
                 </TableRow>
