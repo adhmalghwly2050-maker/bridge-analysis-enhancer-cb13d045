@@ -528,17 +528,19 @@ const ETABSComparisonTable: React.FC<Props> = ({
               <TableBody>
                 {beamRows.map(r => {
                   const etabs = etabsMap.get(r.beamId);
-                  const MomentCells = ({ m2d, m3d, mgf, mEtabs }: { m2d: number; m3d: number; mgf: number; mEtabs?: number }) => (
+                  const MomentCells = ({ m2d, m3d, mgf, muc, mEtabs }: { m2d: number; m3d: number; mgf: number; muc: number; mEtabs?: number }) => (
                     <>
                       <TableCell className="font-mono text-xs text-center px-1 text-blue-600 dark:text-blue-400">{m2d.toFixed(1)}</TableCell>
                       <TableCell className="font-mono text-xs text-center px-1 text-emerald-600 dark:text-emerald-400">{m3d.toFixed(1)}</TableCell>
                       {hasGF && <TableCell className="font-mono text-xs text-center px-1 text-amber-600 dark:text-amber-400">{mgf.toFixed(1)}</TableCell>}
+                      {hasUC && <TableCell className="font-mono text-xs text-center px-1 text-purple-600 dark:text-purple-400">{muc.toFixed(1)}</TableCell>}
                       {hasEtabs ? (
                         <>
                           <TableCell className="font-mono text-xs text-center px-1 text-orange-600 dark:text-orange-400">{mEtabs !== undefined ? mEtabs.toFixed(1) : '—'}</TableCell>
                           <TableCell className="font-mono text-xs text-center px-1" style={{ color: mEtabs !== undefined ? etabsDiffColor(m2d, mEtabs) : undefined }}>{mEtabs !== undefined ? etabsDiffPct(m2d, mEtabs) : '—'}</TableCell>
                           <TableCell className="font-mono text-xs text-center px-1" style={{ color: mEtabs !== undefined ? etabsDiffColor(m3d, mEtabs) : undefined }}>{mEtabs !== undefined ? etabsDiffPct(m3d, mEtabs) : '—'}</TableCell>
                           {hasGF && <TableCell className="font-mono text-xs text-center px-1" style={{ color: mEtabs !== undefined ? etabsDiffColor(mgf, mEtabs) : undefined }}>{mEtabs !== undefined ? etabsDiffPct(mgf, mEtabs) : '—'}</TableCell>}
+                          {hasUC && <TableCell className="font-mono text-xs text-center px-1" style={{ color: mEtabs !== undefined ? etabsDiffColor(muc, mEtabs) : undefined }}>{mEtabs !== undefined ? etabsDiffPct(muc, mEtabs) : '—'}</TableCell>}
                         </>
                       ) : (
                         <TableCell className="font-mono text-xs text-center px-1" style={{ color: diffColor(m2d, m3d) }}>{diffPct(m2d, m3d)}</TableCell>
@@ -552,14 +554,15 @@ const ETABSComparisonTable: React.FC<Props> = ({
                       <TableCell className="font-mono text-xs font-bold">{r.beamId}</TableCell>
                       <TableCell className="font-mono text-xs">{r.span.toFixed(2)}</TableCell>
                       
-                      <MomentCells m2d={r.m2d_left} m3d={r.m3d_left} mgf={r.mgf_left} mEtabs={etabs?.Mleft} />
-                      <MomentCells m2d={r.m2d_mid} m3d={r.m3d_mid} mgf={r.mgf_mid} mEtabs={etabs?.Mmid} />
-                      <MomentCells m2d={r.m2d_right} m3d={r.m3d_right} mgf={r.mgf_right} mEtabs={etabs?.Mright} />
+                      <MomentCells m2d={r.m2d_left} m3d={r.m3d_left} mgf={r.mgf_left} muc={r.muc_left} mEtabs={etabs?.Mleft} />
+                      <MomentCells m2d={r.m2d_mid} m3d={r.m3d_mid} mgf={r.mgf_mid} muc={r.muc_mid} mEtabs={etabs?.Mmid} />
+                      <MomentCells m2d={r.m2d_right} m3d={r.m3d_right} mgf={r.mgf_right} muc={r.muc_right} mEtabs={etabs?.Mright} />
 
                       {/* Vu */}
                       <TableCell className="font-mono text-xs text-center px-1 text-blue-600 dark:text-blue-400">{r.v2d.toFixed(1)}</TableCell>
                       <TableCell className="font-mono text-xs text-center px-1 text-emerald-600 dark:text-emerald-400">{r.v3d.toFixed(1)}</TableCell>
                       {hasGF && <TableCell className="font-mono text-xs text-center px-1 text-amber-600 dark:text-amber-400">{r.vgf.toFixed(1)}</TableCell>}
+                      {hasUC && <TableCell className="font-mono text-xs text-center px-1 text-purple-600 dark:text-purple-400">{r.vuc.toFixed(1)}</TableCell>}
                       <TableCell className="font-mono text-xs text-center px-1" style={{ color: diffColor(r.v2d, r.v3d) }}>{diffPct(r.v2d, r.v3d)}</TableCell>
                     </TableRow>
                   );
@@ -580,6 +583,11 @@ const ETABSComparisonTable: React.FC<Props> = ({
                   {avgDiffs.avgGF !== null && (
                     <Badge className="text-[10px] bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-400/40">
                       GF↔ETABS: {avgDiffs.avgGF.toFixed(1) + '%'}
+                    </Badge>
+                  )}
+                  {avgDiffs.avgUC !== null && (
+                    <Badge className="text-[10px] bg-purple-500/15 text-purple-700 dark:text-purple-400 border-purple-400/40">
+                      UC↔ETABS: {avgDiffs.avgUC.toFixed(1) + '%'}
                     </Badge>
                   )}
                   <span className="text-[10px] text-muted-foreground">
