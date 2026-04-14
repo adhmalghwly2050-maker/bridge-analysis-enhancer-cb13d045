@@ -131,7 +131,7 @@ function parseEtabsBeamCSV(text: string): ETABSBeamData[] {
 
 const ETABSComparisonTable: React.FC<Props> = ({
   frames, beams, columns, stories,
-  frameResults3D, frameResults2D, frameResultsGF,
+  frameResults3D, frameResults2D, frameResultsGF, frameResultsUC,
   colLoads3D, colLoads2D,
   etabsBeamData: externalEtabsData,
   onEtabsDataChange,
