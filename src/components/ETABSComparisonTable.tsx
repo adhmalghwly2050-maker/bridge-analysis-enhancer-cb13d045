@@ -37,6 +37,7 @@ interface Props {
   frameResults3D: FrameResult[];
   frameResults2D: FrameResult[];
   frameResultsGF?: FrameResult[];
+  frameResultsUC?: FrameResult[];
   colLoads3D: Map<string, ColLoad>;
   colLoads2D: Map<string, ColLoad>;
   etabsBeamData?: ETABSBeamData[];
