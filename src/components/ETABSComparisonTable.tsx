@@ -346,6 +346,7 @@ const ETABSComparisonTable: React.FC<Props> = ({
     const diffs2d: number[] = [];
     const diffs3d: number[] = [];
     const diffsGF: number[] = [];
+    const diffsUC: number[] = [];
     for (const r of beamRows) {
       const etabs = etabsMap.get(r.beamId);
       if (!etabs) continue;
@@ -367,11 +368,17 @@ const ETABSComparisonTable: React.FC<Props> = ({
         const d = etabsDiffPctNum(eng, et);
         if (d !== null) diffsGF.push(Math.abs(d));
       }
+      for (const [eng, et] of [
+        [r.muc_left, etabs.Mleft], [r.muc_mid, etabs.Mmid], [r.muc_right, etabs.Mright],
+      ] as [number, number][]) {
+        const d = etabsDiffPctNum(eng, et);
+        if (d !== null) diffsUC.push(Math.abs(d));
+      }
     }
     const avg = (arr: number[]) => arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
     return {
-      avg2d: avg(diffs2d), avg3d: avg(diffs3d), avgGF: avg(diffsGF),
-      count2d: diffs2d.length, count3d: diffs3d.length, countGF: diffsGF.length,
+      avg2d: avg(diffs2d), avg3d: avg(diffs3d), avgGF: avg(diffsGF), avgUC: avg(diffsUC),
+      count2d: diffs2d.length, count3d: diffs3d.length, countGF: diffsGF.length, countUC: diffsUC.length,
     };
   }, [beamRows, etabsMap, hasEtabs]);
 
