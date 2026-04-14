@@ -1007,8 +1007,16 @@ export function analyzeFrame(
         }
         // endCondition stays undefined → treated as semi-rigid
       } else {
-        // Default to knife edge (pinned) for end supports, matching Excel behavior
-        endCondition = 'K';
+        // If the column provides rotational stiffness at this edge,
+        // do NOT force knife-edge — let moment distribution account for
+        // the column restraint so that edge moments are non-zero.
+        const hasColumnStiffness = colStiffnessBelow > 0 || colStiffnessAbove > 0;
+        if (hasColumnStiffness) {
+          // endCondition stays undefined → semi-rigid joint with column stiffness
+        } else {
+          // No column stiffness → true pinned (knife edge)
+          endCondition = 'K';
+        }
       }
     }
 
