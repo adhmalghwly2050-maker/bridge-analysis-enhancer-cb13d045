@@ -407,6 +407,7 @@ const ETABSComparisonTable: React.FC<Props> = ({
             <span><span className="font-semibold text-blue-500">2D</span>{' '}= Matrix Stiffness Method (إطارات مستوية · 2 DOF/عقدة · EI كاملة · Pattern Loading)</span>
             <span><span className="font-semibold text-emerald-500">3D</span>{' '}= Direct Stiffness 3D (6 DOF/عقدة · معاملات ACI 318-19 §6.6.3 · Pattern Loading §6.4.3)</span>
             {hasGF && <span><span className="font-semibold text-amber-500">GF</span>{' '}= Global Frame Solver (ETABS-like · عقد مشتركة · مصفوفة واحدة)</span>}
+            {hasUC && <span><span className="font-semibold text-purple-500">UC</span>{' '}= Unified Core (محرك موحّد)</span>}
             {hasEtabs && <span><span className="font-semibold text-orange-500">ETABS</span>{' '}= نتائج مستوردة من برنامج ETABS</span>}
           </div>
         </CardContent>
